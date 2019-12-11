@@ -39,7 +39,9 @@ namespace NumberGenerator.Logic
 
         public StatisticsObserver(IObservable numberGenerator, int countOfNumbersToWaitFor) : base(numberGenerator, countOfNumbersToWaitFor)
         {
-            throw new NotImplementedException();
+            Min = int.MaxValue;
+            Max = int.MinValue;
+            Sum = 0;
         }
 
         #endregion
@@ -48,18 +50,19 @@ namespace NumberGenerator.Logic
 
         public override string ToString()
         {
-            return base.ToString() + $" => StatisticsObserver [Min='{Min}', Max='{Max}', Sum='{Sum}', Avg='{Avg}']";
+            return $"BaseObserver [CountOfNumbersReceived='{CountOfNumbersReceived}', CountOfNumbersToWaitFor='{CountOfNumbersToWaitFor}'] => StatisticsObserver [Min='{Min}', Max='{Max}', Sum='{Sum}', Avg='{Avg}']";
         }
 
         public override void OnNextNumber(int number)
         {
+            base.OnNextNumber(number);
             Sum += number;
 
             if(number > Max)
             {
                 Max = number;
             }
-            else if(number < Min)
+            if(number < Min)
             {
                 Min = number;
             }          

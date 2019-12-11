@@ -24,7 +24,7 @@ namespace NumberGenerator.Logic
         /// <summary>
         /// Enthält die Anzahl der Zahlen, welche sich im Bereich befinden.
         /// </summary>
-        public int NumbersInRange { get; private set; } = 0;
+        public int NumbersInRange { get; private set; }
 
         /// <summary>
         /// Enthält die Anzahl der gesuchten Zahlen im Bereich.
@@ -37,6 +37,11 @@ namespace NumberGenerator.Logic
 
         public RangeObserver(IObservable numberGenerator, int numberOfHitsToWaitFor, int lowerRange, int upperRange) : base(numberGenerator, int.MaxValue)
         {
+            if(lowerRange > upperRange)
+            {
+                throw new ArgumentException("Untergrenze > Obergrenze");
+            }
+            NumbersInRange = 0;
             NumbersOfHitsToWaitFor = numberOfHitsToWaitFor;
             LowerRange = lowerRange;
             UpperRange = upperRange;
@@ -48,18 +53,20 @@ namespace NumberGenerator.Logic
 
         public override string ToString()
         {
-            throw new NotImplementedException();
+            return $"{base.ToString()} = {NumbersInRange}";
         }
 
         public override void OnNextNumber(int number)
         {
-            if(NumbersOfHitsToWaitFor > CountOfNumbersReceived)
-            {
-                DetachFromNumberGenerator();
-            }
-            else if(number >= LowerRange && number <= UpperRange)
+            base.OnNextNumber(number);
+
+            if (number >= LowerRange && number <= UpperRange)
             {
                 NumbersInRange++;
+            }
+            if (NumbersOfHitsToWaitFor > CountOfNumbersReceived)
+            {
+                DetachFromNumberGenerator();
             }
         }
 

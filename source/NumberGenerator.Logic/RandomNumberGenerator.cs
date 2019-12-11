@@ -27,6 +27,13 @@ namespace NumberGenerator.Logic
 
         #endregion
 
+        #region Properties
+
+        public int DelayTime { get; set; }
+        public int Seed { get; set; }
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -51,6 +58,9 @@ namespace NumberGenerator.Logic
         /// <param name="seed">Enthält die Initialisierung der Zufallszahlengenerierung.</param>
         public RandomNumberGenerator(int delay, int seed)
         {
+            _observers = new List<IObserver>();
+            DelayTime = delay;
+            Seed = seed;
         }
 
         #endregion
@@ -76,7 +86,7 @@ namespace NumberGenerator.Logic
             }
             else
             {
-                throw new Exception("Observer is already attached");
+                throw new InvalidOperationException(nameof(observer));
             }
         }
 
@@ -97,7 +107,7 @@ namespace NumberGenerator.Logic
             }
             else
             {
-                throw new Exception("Observer is not attached");
+                throw new InvalidOperationException(nameof(observer));
             }
         }
 
@@ -107,9 +117,9 @@ namespace NumberGenerator.Logic
         /// <param name="number">Die generierte Zahl.</param>
         public void NotifyObservers(int number)
         {
-            foreach(IObserver observer in _observers)
+            for (int i = 0; i < _observers.Count; i++)
             {
-                observer.OnNextNumber(number);
+                _observers[i].OnNextNumber(number);
             }
         }
 
@@ -126,13 +136,13 @@ namespace NumberGenerator.Logic
         /// </summary>
         public void StartNumberGeneration()
         {
-            Random random = new Random();
+            Random random = new Random(Seed);
 
             while (_observers.Count > 0)
             {
                 int newNumber = random.Next(RANDOM_MIN_VALUE, RANDOM_MAX_VALUE);
-
                 NotifyObservers(newNumber);
+                Task.Delay(DelayTime).Wait();
             }
         }
 
