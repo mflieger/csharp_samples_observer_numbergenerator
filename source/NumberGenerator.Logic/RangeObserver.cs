@@ -64,7 +64,7 @@ namespace NumberGenerator.Logic
             {
                 NumbersInRange++;
             }
-            if (NumbersOfHitsToWaitFor > CountOfNumbersReceived)
+            if (NumbersInRange >= NumbersOfHitsToWaitFor)
             {
                 DetachFromNumberGenerator();
             }
