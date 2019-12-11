@@ -18,7 +18,7 @@ namespace NumberGenerator.Logic
         #region Properties
 
         public List<int> QuickTippNumbers { get; private set; }
-        public int CountOfNumbersReceived { get; private set; }
+        public int CountOfNumbersReceived { get; private set; } = 0;
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace NumberGenerator.Logic
 
         public QuickTippObserver(IObservable numberGenerator)
         {
-            throw new NotImplementedException();
+            _numberGenerator = numberGenerator;
         }
 
         #endregion
@@ -35,7 +35,18 @@ namespace NumberGenerator.Logic
 
         public void OnNextNumber(int number)
         {
-            throw new NotImplementedException();
+            CountOfNumbersReceived++;
+
+            if(number > 0 && number <= 45 && !QuickTippNumbers.Contains(number))
+            {
+                QuickTippNumbers.Add(number);
+
+                if(QuickTippNumbers.Count >= 6)
+                {
+                    QuickTippNumbers.Sort();
+                    DetachFromNumberGenerator();
+                }
+            }
         }
 
         public override string ToString()

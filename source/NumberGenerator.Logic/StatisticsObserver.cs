@@ -31,7 +31,7 @@ namespace NumberGenerator.Logic
         /// <summary>
         /// Enthält den Durchschnitt der generierten Zahlen.
         /// </summary>
-        public int Avg => throw new NotImplementedException();
+        public int Avg => Sum / CountOfNumbersToWaitFor;
 
         #endregion
 
@@ -48,12 +48,21 @@ namespace NumberGenerator.Logic
 
         public override string ToString()
         {
-            throw new NotImplementedException();
+            return base.ToString() + $" => StatisticsObserver [Min='{Min}', Max='{Max}', Sum='{Sum}', Avg='{Avg}']";
         }
 
         public override void OnNextNumber(int number)
         {
-            throw new NotImplementedException();
+            Sum += number;
+
+            if(number > Max)
+            {
+                Max = number;
+            }
+            else if(number < Min)
+            {
+                Min = number;
+            }          
         }
 
         #endregion

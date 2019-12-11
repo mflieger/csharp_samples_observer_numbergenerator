@@ -23,12 +23,12 @@ namespace NumberGenerator.Logic
         #endregion
 
         #region Fields
-
+        List<IObserver> _observers = new List<IObserver>();
 
         #endregion
 
         #region Constructors
-        
+
         /// <summary>
         /// Initialisiert eine neue Instanz eines NumberGenerator-Objekts
         /// </summary>
@@ -65,7 +65,19 @@ namespace NumberGenerator.Logic
         /// <param name="observer">Der Beobachter, welcher benachricht werden möchte.</param>
         public void Attach(IObserver observer)
         {
-            throw new NotImplementedException();
+            if(observer == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if(!_observers.Contains(observer))
+            {
+                _observers.Add(observer);
+            }
+            else
+            {
+                throw new Exception("Observer is already attached");
+            }
         }
 
         /// <summary>
@@ -74,7 +86,19 @@ namespace NumberGenerator.Logic
         /// <param name="observer">Der Beobachter, welcher nicht mehr benachrichtigt werden möchte</param>
         public void Detach(IObserver observer)
         {
-            throw new NotImplementedException();
+            if(observer == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if(_observers.Contains(observer))
+            {
+                _observers.Remove(observer);
+            }
+            else
+            {
+                throw new Exception("Observer is not attached");
+            }
         }
 
         /// <summary>
@@ -83,7 +107,10 @@ namespace NumberGenerator.Logic
         /// <param name="number">Die generierte Zahl.</param>
         public void NotifyObservers(int number)
         {
-            throw new NotImplementedException();
+            foreach(IObserver observer in _observers)
+            {
+                observer.OnNextNumber(number);
+            }
         }
 
         #endregion
@@ -99,8 +126,16 @@ namespace NumberGenerator.Logic
         /// </summary>
         public void StartNumberGeneration()
         {
-            throw new NotImplementedException();
+            Random random = new Random();
+
+            while (_observers.Count > 0)
+            {
+                int newNumber = random.Next(RANDOM_MIN_VALUE, RANDOM_MAX_VALUE);
+
+                NotifyObservers(newNumber);
+            }
         }
+
 
         #endregion
     }
