@@ -37,7 +37,7 @@ namespace NumberGenerator.Logic
 
             try
             {
-                numberGenerator.Attach(this);
+                numberGenerator.NextNumber += this.OnNextNumber;
                 _numberGenerator = numberGenerator;
                 CountOfNumbersToWaitFor = countOfNumbersToWaitFor;
             }
@@ -81,7 +81,7 @@ namespace NumberGenerator.Logic
 
         protected void DetachFromNumberGenerator()
         {
-            _numberGenerator.Detach(this);
+            _numberGenerator.NextNumber -= this.OnNextNumber;
         }
 
         #endregion

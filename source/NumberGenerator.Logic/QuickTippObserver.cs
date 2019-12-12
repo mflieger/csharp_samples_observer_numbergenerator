@@ -32,7 +32,7 @@ namespace NumberGenerator.Logic
             }
             CountOfNumbersReceived = 0;
             QuickTippNumbers = new List<int>();
-            numberGenerator.Attach(this);
+            numberGenerator.NextNumber += this.OnNextNumber;
             _numberGenerator = numberGenerator;
         }
 
@@ -63,7 +63,7 @@ namespace NumberGenerator.Logic
 
         private void DetachFromNumberGenerator()
         {
-            _numberGenerator.Detach(this);
+            _numberGenerator.NextNumber -= this.OnNextNumber;
         }
 
         #endregion

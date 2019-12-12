@@ -4,10 +4,8 @@ namespace NumberGenerator.Logic
 {
     public interface IObservable
     {
-        void Attach(IObserver observer);
-        
-        void Detach(IObserver observer);
+        delegate void NextNumberHandler(int newNumber);
 
-        void NotifyObservers(int number);
+        NextNumberHandler NextNumber { get; set; }
     }
 }

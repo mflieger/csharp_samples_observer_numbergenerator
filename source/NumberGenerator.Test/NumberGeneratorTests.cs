@@ -19,7 +19,7 @@ namespace NumberGenerator.Test
             RandomNumberGenerator numberGenerator = new RandomNumberGenerator();
 
             //Act
-            numberGenerator.Attach(null);
+            numberGenerator.NextNumber += null;
 
 
             //Assert
@@ -34,7 +34,7 @@ namespace NumberGenerator.Test
             RandomNumberGenerator numberGenerator = new RandomNumberGenerator();
 
             //Act
-            numberGenerator.Detach(null);
+            numberGenerator.NextNumber -= (null);
 
 
             //Assert
@@ -50,7 +50,7 @@ namespace NumberGenerator.Test
             BaseObserver baseObserver = new BaseObserver(numberGenerator, 5);
 
             //Act
-            numberGenerator.Attach(baseObserver);
+            numberGenerator.NextNumber += baseObserver.OnNextNumber;
 
             //Assert
             Assert.Fail("InvalidOperationException was expected!");
@@ -65,8 +65,8 @@ namespace NumberGenerator.Test
             BaseObserver baseObserver = new BaseObserver(numberGenerator, 5);
 
             //Act
-            numberGenerator.Detach(baseObserver);
-            numberGenerator.Detach(baseObserver);
+            numberGenerator.NextNumber -= baseObserver.OnNextNumber;
+            numberGenerator.NextNumber -= baseObserver.OnNextNumber;
 
             //Assert
             Assert.Fail("InvalidOperationException was expected!");
@@ -82,7 +82,7 @@ namespace NumberGenerator.Test
             //Act
             try
             {
-                numberGenerator.Detach(baseObserver);
+                numberGenerator.NextNumber -= baseObserver.OnNextNumber;
             }
             catch (Exception ex)
             {
