@@ -7,7 +7,7 @@ namespace NumberGenerator.Logic
     /// <summary>
     /// Beobachter, welcher auf einen vollständigen Quick-Tipp wartet: 6 unterschiedliche Zahlen zw. 1 und 45.
     /// </summary>
-    public class QuickTippObserver : IObserver
+    public class QuickTippObserver
     {
         #region Fields
 
@@ -32,7 +32,7 @@ namespace NumberGenerator.Logic
             }
             CountOfNumbersReceived = 0;
             QuickTippNumbers = new List<int>();
-            numberGenerator.NextNumber += this.OnNextNumber;
+            numberGenerator.NumberHandler += this.OnNextNumber;
             _numberGenerator = numberGenerator;
         }
 
@@ -40,7 +40,7 @@ namespace NumberGenerator.Logic
 
         #region Methods
 
-        public void OnNextNumber(int number)
+        public void OnNextNumber(object sender, int number)
         {
             CountOfNumbersReceived++;
 
@@ -63,7 +63,7 @@ namespace NumberGenerator.Logic
 
         private void DetachFromNumberGenerator()
         {
-            _numberGenerator.NextNumber -= this.OnNextNumber;
+            _numberGenerator.NumberHandler -= this.OnNextNumber;
         }
 
         #endregion

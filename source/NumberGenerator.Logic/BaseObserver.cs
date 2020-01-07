@@ -7,7 +7,7 @@ namespace NumberGenerator.Logic
     /// Beobachter, welcher die Zahlen auf der Konsole ausgibt.
     /// Diese Klasse dient als Basisklasse für komplexere Beobachter.
     /// </summary>
-    public class BaseObserver : IObserver
+    public class BaseObserver 
     {
         #region Fields
 
@@ -37,7 +37,7 @@ namespace NumberGenerator.Logic
 
             try
             {
-                numberGenerator.NextNumber += this.OnNextNumber;
+                numberGenerator.NumberHandler += this.OnNextNumber;
                 _numberGenerator = numberGenerator;
                 CountOfNumbersToWaitFor = countOfNumbersToWaitFor;
             }
@@ -57,7 +57,7 @@ namespace NumberGenerator.Logic
         /// Wird aufgerufen wenn der NumberGenerator eine neue Zahl generiert hat.
         /// </summary>
         /// <param name="number"></param>
-        public virtual void OnNextNumber(int number)
+        public virtual void OnNextNumber(object sender, int number)
         {
             CountOfNumbersReceived++;
 
@@ -81,7 +81,7 @@ namespace NumberGenerator.Logic
 
         protected void DetachFromNumberGenerator()
         {
-            _numberGenerator.NextNumber -= this.OnNextNumber;
+            _numberGenerator.NumberHandler -= this.OnNextNumber;
         }
 
         #endregion

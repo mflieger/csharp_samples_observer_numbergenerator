@@ -53,9 +53,9 @@ namespace NumberGenerator.Logic
             return $"BaseObserver [CountOfNumbersReceived='{CountOfNumbersReceived}', CountOfNumbersToWaitFor='{CountOfNumbersToWaitFor}'] => StatisticsObserver [Min='{Min}', Max='{Max}', Sum='{Sum}', Avg='{Avg}']";
         }
 
-        public override void OnNextNumber(int number)
+        public override void OnNextNumber(object sender, int number)
         {
-            base.OnNextNumber(number);
+            base.OnNextNumber(sender, number);
             Sum += number;
 
             if(number > Max)
