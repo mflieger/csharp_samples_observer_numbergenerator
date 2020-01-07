@@ -69,6 +69,7 @@ namespace NumberGenerator.Logic
         /// <param name="number">Die generierte Zahl.</param>
         public void NotifyObservers(int number)
         {
+            Console.WriteLine($"New Number -> {number}");
             NextNumber?.Invoke(number);
         }
 
